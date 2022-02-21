@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'de.mannodermaus.android-junit5'
+}
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+    }
+    testOptions {
+        /*execution 'ANDROIDX_TEST_ORCHESTRATOR'*/
+        animationsDisabled true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+        junitPlatform {
+            includeEngines 'junit-jupiter'
+            excludeEngines 'junit-vintage'
+        }
+    }
+}
+
+dependencies {
+    implementation deps.test.unitary.coroutines
+    implementation deps.test.unitary.core_testing
+    implementation deps.test.unitary.junit.v4.core
+    implementation deps.test.unitary.junit.v5.core
+
+    //UI Test
+    androidTestImplementation deps.test.ui.espresso.contrib
+    androidTestImplementation deps.test.ui.espresso.core
+    androidTestImplementation deps.test.ui.fragment
+    androidTestImplementation deps.test.ui.junit5.core
+    androidTestImplementation deps.test.ui.mockk_android
+    androidTestImplementation deps.test.ui.rules
+    androidTestImplementation deps.test.ui.runner
+    androidTestImplementation deps.test.unitary.assertj_core
+    androidTestImplementation deps.test.unitary.core_testing
+    androidTestImplementation deps.test.unitary.junit.v4.core
+    androidTestImplementation deps.test.unitary.junit.v5.core
+    androidTestImplementation deps.test.unitary.koin_test
+    androidTestImplementation deps.test.unitary.mockito.kotlin
+    androidTestRuntimeOnly deps.test.ui.junit5.runner
+
+    //Unitary Test
+    testImplementation deps.test.unitary.assertj_core
+    testImplementation deps.test.unitary.core_testing
+    testImplementation deps.test.unitary.coroutines
+    testImplementation deps.test.unitary.junit.v4.core
+    testImplementation deps.test.unitary.junit.v5.core
+    testImplementation deps.test.unitary.junit.v5.params
+    testImplementation deps.test.unitary.koin_test
+    testImplementation deps.test.unitary.mockito.inline
+    testImplementation deps.test.unitary.mockito.kotlin
+    testImplementation deps.test.unitary.mockk
+    testImplementation deps.test.unitary.okhttp3
+    testImplementation deps.test.unitary.room_testing
+    testRuntimeOnly deps.test.unitary.junit.v4.engine
+    testRuntimeOnly deps.test.unitary.junit.v5.engine
+}
+
+preBuild.dependsOn 'detekt'

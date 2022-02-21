@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion projectSdk.compile
+
+    defaultConfig {
+        applicationId "br.com.gtbulla.starkotlin"
+        minSdkVersion projectSdk.min
+        targetSdkVersion projectSdk.target
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {}
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':libraries:testcore')
+    implementation project(':libraries:data')
+    implementation project(':libraries:uicore')
+    implementation project(':features:repository_git')
+
+    implementation deps.asynchronous.coroutines.android
+    implementation deps.asynchronous.coroutines.core
+
+    implementation deps.component.appcompat
+    implementation deps.component.constraintlayout
+    implementation deps.component.material
+
+    implementation deps.injection.koin.android
+    implementation deps.injection.koin.core
+    implementation deps.injection.koin.viewmodel
+
+    implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.lifecycle.runtime_ktx
+
+    implementation deps.storages.room.runtime
+    implementation deps.storages.room.ktx
+    kapt deps.storages.room.kapt_compiler
+
+    implementation deps.test.unitary.koin_test
+
+    implementation deps.util.core_ktx
+    implementation deps.util.kotlin_stdlib_jdk7
+
+    testImplementation deps.test.unitary.junit.v4.core
+    testImplementation deps.test.unitary.mockito.core
+    testImplementation deps.test.unitary.mockito.kotlin
+    testImplementation deps.test.unitary.core_testing
+    testImplementation deps.test.unitary.coroutines
+
+    androidTestImplementation deps.test.ui.espresso.core
+    androidTestImplementation deps.test.ui.runner
+}

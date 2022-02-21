@@ -1,0 +1,71 @@
+def coveredProject = subprojects.findAll {it.name != 'features' && it.name != 'libraries' && it.name != 'libraries:common' }
+
+apply plugin: 'jacoco'
+
+configure(coveredProject) { prj ->
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = versions.jacoco
+    }
+
+    tasks.withType(Test) {
+        jacoco.includeNoLocationClasses = true
+        jacoco.excludes = ['jdk.internal.*']
+        useJUnitPlatform()
+    }
+
+    task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+        group = 'Reporting'
+        description = 'Generate Jacoco coverage'
+
+        reports {
+            csv.enabled = false
+            xml.enabled = false
+            html.enabled = true
+        }
+
+        final fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+        final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+        final mainSrc = "${prj.projectDir}/src/main/java"
+
+        sourceDirectories.setFrom files([mainSrc])
+        additionalSourceDirs.setFrom files(mainSrc)
+        classDirectories.setFrom files([kotlinTree])
+        executionData.setFrom fileTree(dir: prj.buildDir, includes: [
+                'jacoco/testDebugUnitTest.exec',
+                'jacoco/androidTestDebugUnitTest.exec',
+                'outputs/code-coverage/connected/*coverage.ec'
+        ])
+    }
+}
+
+task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
+    group = 'Reporting'
+    description = 'Generates an aggregate report from all subprojects'
+
+    tasks.withType(Test) {
+        jacoco.includeNoLocationClasses = true
+        jacoco.excludes = ['jdk.internal.*']
+        ignoreFailures true
+    }
+
+    dependsOn(coveredProject.jacocoTestReport)
+
+    final source = files(coveredProject.jacocoTestReport.sourceDirectories)
+    additionalSourceDirs.setFrom source
+    sourceDirectories.setFrom source
+
+    classDirectories.setFrom files(coveredProject.jacocoTestReport.classDirectories)
+    executionData.setFrom files(coveredProject.jacocoTestReport.executionData)
+
+    reports {
+        html {
+            enabled true
+            destination file('build/reports/jacoco/html')
+        }
+    }
+
+    println "Jacoco report has been generated to file://${reports.html.destination}/index.html"
+}
+

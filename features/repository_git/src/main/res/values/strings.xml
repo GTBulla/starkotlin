@@ -1,0 +1,5 @@
+<resources>
+    <string name="feature_repository_git_title">Repositórios com mais estrelas em Kotlin</string>
+    <string name="feature_repository_git_message_not_found">Nenhum repositório encontrado. Tente novamente mais tarde.</string>
+    <string name="feature_repository_button_retry">Tente novamente</string>
+</resources>

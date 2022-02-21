@@ -1,0 +1,141 @@
+buildscript {
+    apply from: 'dependencies.gradle'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath pluginClassPath.build_gradle
+        classpath pluginClassPath.detekt
+        classpath pluginClassPath.firebase.crashlytics
+        classpath pluginClassPath.firebase.perf
+        classpath pluginClassPath.google_services
+        classpath pluginClassPath.jacoco
+        classpath pluginClassPath.junit5
+        classpath pluginClassPath.kotlin.extensions
+        classpath pluginClassPath.kotlin.gradle
+        classpath pluginClassPath.navigation
+    }
+}
+
+apply from: "$rootDir/jacoco.gradle"
+
+allprojects {
+    apply from: "$rootDir/detekt.gradle"
+
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() {
+            content {
+                includeModule("androidx.test", "core-ktx")
+                includeModule("com.akexorcist", "snap-time-picker")
+                includeModule("com.blankj", "utilcodex")
+                includeModule("com.brouding", "android-doubletaplikeview")
+                includeModule("com.google.android", "flexbox")
+                includeModule("com.jaredsburrows.retrofit", "retrofit2-synchronous-adapter")
+                includeModule("org.jetbrains.anko", "anko-commons")
+                includeModule("org.koin", "koin-android")
+                includeModule("org.koin", "koin-androidx-compose")
+                includeModule("org.koin", "koin-androidx-core")
+                includeModule("org.koin", "koin-androidx-fragment")
+                includeModule("org.koin", "koin-androidx-scope")
+                includeModule("org.koin", "koin-androidx-viewmodel")
+                includeModule("org.koin", "koin-androidx-workmanager")
+                includeModule("org.koin", "koin-core")
+                includeModule("org.koin", "koin-test")
+                includeModule("org.koin", "koin-test-core")
+            }
+        }
+        maven { url 'https://maven.google.com/'}
+        maven { url "https://www.jitpack.io"}
+        maven { url "https://repo.maven.apache.org/maven2/"}
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            android {
+                compileSdkVersion projectSdk.compile
+                buildToolsVersion projectSdk.buildTools
+
+                defaultConfig {
+                    minSdkVersion projectSdk.min
+                    targetSdkVersion projectSdk.target
+
+                    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                }
+
+                buildFeatures{
+                    dataBinding = true
+                    viewBinding = true
+                }
+
+                compileOptions {
+                    sourceCompatibility versions.java
+                    targetCompatibility versions.java
+                }
+
+                kotlinOptions {
+                    jvmTarget = versions.jvmTarget
+                }
+
+                packagingOptions {
+                    exclude 'META-INF/AL2.0'
+                    exclude 'META-INF/LGPL2.1'
+                    exclude 'META-INF/LICENSE.md'
+                    exclude 'META-INF/LICENSE-notice.md'
+                }
+            }
+
+            dependencies {
+                //UI Test
+                androidTestImplementation deps.test.ui.espresso.contrib
+                androidTestImplementation deps.test.ui.espresso.core
+                androidTestImplementation deps.test.ui.fragment
+                androidTestImplementation deps.test.ui.ext_junit
+                androidTestImplementation deps.test.ui.junit5.core
+                androidTestImplementation deps.test.ui.mockk_android
+                androidTestImplementation deps.test.ui.rules
+                androidTestImplementation deps.test.ui.runner
+                androidTestImplementation deps.test.unitary.assertj_core
+                androidTestImplementation deps.test.unitary.core_testing
+                androidTestImplementation deps.test.unitary.junit.v4.core
+                androidTestImplementation deps.test.unitary.junit.v5.core
+                androidTestImplementation deps.test.unitary.koin_test
+                androidTestImplementation deps.test.unitary.mockito.kotlin
+                androidTestRuntimeOnly deps.test.ui.junit5.runner
+
+                //Unitary Test
+                testImplementation deps.http.retrofit.converter_moshi
+                testImplementation deps.test.unitary.assertj_core
+                testImplementation deps.test.unitary.core_testing
+                testImplementation deps.test.unitary.coroutines
+                testImplementation deps.test.unitary.junit.v4.core
+                testImplementation deps.test.unitary.junit.v5.core
+                testImplementation deps.test.unitary.junit.v5.params
+                testImplementation deps.test.unitary.koin_test
+                testImplementation deps.test.unitary.mockito.inline
+                testImplementation deps.test.unitary.mockito.kotlin
+                testImplementation deps.test.unitary.mockk
+                testImplementation deps.test.unitary.okhttp3
+                testImplementation deps.test.unitary.room_testing
+                testRuntimeOnly deps.test.unitary.junit.v4.engine
+                testRuntimeOnly deps.test.unitary.junit.v5.engine
+            }
+        }
+    }
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force(deps.util.antlr.runtime)
+        force(deps.util.antlr.tool)
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

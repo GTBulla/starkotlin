@@ -1,0 +1,7 @@
+rootProject.name = "StarKotlin"
+include ':app'
+include 'libraries:common:models'
+include ':libraries:uicore'
+include ':libraries:data'
+include ':libraries:testcore'
+include ':features:repository_git'
