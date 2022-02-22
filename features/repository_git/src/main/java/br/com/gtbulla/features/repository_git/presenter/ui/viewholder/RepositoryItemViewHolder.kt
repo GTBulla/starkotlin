@@ -5,6 +5,7 @@ import br.com.gtbulla.features.repository_git.R
 import br.com.gtbulla.features.repository_git.databinding.RepositoryItemBinding
 import br.com.gtbulla.libraries.common.model.presentation.RepositoryGitItemUI
 import br.com.gtbulla.libraries.common.model.presentation.RepositoryGitOwnerUI
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
@@ -49,7 +50,6 @@ internal class RepositoryItemViewHolder internal constructor(
         Picasso.get()
             .load(owner.avatarUrl)
             .error(R.drawable.ic_person)
-            .networkPolicy(NetworkPolicy.OFFLINE)
             .into(binding.imageItemOwnerAvatar)
     }
 

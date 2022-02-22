@@ -51,6 +51,8 @@ dependencies {
     implementation deps.component.constraintlayout
     implementation deps.component.material
 
+    implementation deps.image.picasso
+
     implementation deps.injection.koin.android
     implementation deps.injection.koin.core
     implementation deps.injection.koin.viewmodel
