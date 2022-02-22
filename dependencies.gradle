@@ -27,6 +27,7 @@ ext {
             coroutines_test                    : "1.5.0",
             customactivityoncrash              : "2.3.0",
             dagger                             : "2.23.2",
+            datastore                          : "1.0.0",
             detekt                             : "1.17.1",
             espresso                           : "3.3.0",
             ext_junit                          : "1.1.2",
@@ -105,26 +106,26 @@ ext {
     ]
 
     deps = [
-            asynchronous  : [
-                    coroutines: [
-                        android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
-                        core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
+            asynchronous : [
+                    coroutines  : [
+                            android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
+                            core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
                     ],
-                    rxandroid              : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
-                    rxjava                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
-                    work_runtime           : "androidx.work:work-runtime:$versions.work_runtime",
+                    rxandroid   : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
+                    rxjava      : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
+                    work_runtime: "androidx.work:work-runtime:$versions.work_runtime",
             ],
-            component     : [
+            component    : [
                     appcompat            : "androidx.appcompat:appcompat:$versions.appcompat",
                     constraintlayout     : "androidx.constraintlayout:constraintlayout:$versions.constraintlayout",
                     customactivityoncrash: "cat.ereza:customactivityoncrash:$versions.customactivityoncrash",
                     material             : "com.google.android.material:material:$versions.material",
                     recyclerview         : "androidx.recyclerview:recyclerview:$versions.recyclerview",
             ],
-            debug         : [
+            debug        : [
                     leakcanary: "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
             ],
-            firebase      : [
+            firebase     : [
                     analytics_ktx             : "com.google.firebase:firebase-analytics-ktx",
                     bom                       : "com.google.firebase:firebase-bom:$versions.firebase_bom",
                     config_ktx                : "com.google.firebase:firebase-config-ktx:$versions.firebase_config_ktx",
@@ -136,15 +137,15 @@ ext {
                     messaging                 : "com.google.firebase:firebase-messaging:$versions.firebase_messaging",
                     perf                      : "com.google.firebase:firebase-perf:$versions.firebase_perf",
             ],
-            google_play   : [
+            google_play  : [
                     core                : "com.google.android.play:core:$versions.playcore",
                     play_services_vision: "com.google.android.gms:play-services-vision:$versions.play_services_vision",
             ],
-            http          : [
+            http         : [
                     okhttp  : [
                             core               : "com.squareup.okhttp3:okhttp:$versions.okhttp",
                             logging_interceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
-                            mockwebserver: "com.squareup.okhttp3:mockwebserver:$versions.okhttp",
+                            mockwebserver      : "com.squareup.okhttp3:mockwebserver:$versions.okhttp",
                     ],
                     retrofit: [
                             core               : "com.squareup.retrofit2:retrofit:$versions.retrofit",
@@ -156,13 +157,13 @@ ext {
                             synchronous_adapter: "com.jaredsburrows.retrofit:retrofit2-synchronous-adapter:$versions.retrofit2_synchronous_adapter",
                     ],
             ],
-            image         : [
-                    circleimageview               : "de.hdodenhof:circleimageview:$versions.circleimageview",
-                    coil                          : "io.coil-kt:coil:$versions.coil",
-                    picasso                       : "com.squareup.picasso:picasso:$versions.picasso",
+            image        : [
+                    circleimageview: "de.hdodenhof:circleimageview:$versions.circleimageview",
+                    coil           : "io.coil-kt:coil:$versions.coil",
+                    picasso        : "com.squareup.picasso:picasso:$versions.picasso",
             ],
-            injection     : [
-                    koin: [
+            injection    : [
+                    koin  : [
                             android    : "org.koin:koin-android:$versions.koin",
                             compose    : "org.koin:koin-androidx-compose:$versions.koin",
                             core       : "org.koin:koin-core:$versions.koin",
@@ -172,18 +173,18 @@ ext {
                             workmanager: "org.koin:koin-androidx-workmanager:$versions.koin",
                     ],
                     dagger: [
-                        core    : "com.google.dagger:dagger:$versions.dagger",
-                        compiler: "com.google.dagger:dagger-compiler:$versions.dagger",
+                            core    : "com.google.dagger:dagger:$versions.dagger",
+                            compiler: "com.google.dagger:dagger-compiler:$versions.dagger",
                     ],
             ],
-            lifecycle     : [
+            lifecycle    : [
                     common_java8 : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
                     extensions   : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle_extensions",
                     livedata_ktx : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
                     runtime_ktx  : "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle",
                     viewmodel_ktx: "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
             ],
-            navigation    : [
+            navigation   : [
                     dynamic_features_fragment: "androidx.navigation:navigation-dynamic-features-fragment:$versions.navigation",
                     fragment_ktx             : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
                     paging_common_ktx        : "androidx.paging:paging-common-ktx:$versions.paging",
@@ -191,19 +192,31 @@ ext {
                     ui_ktx                   : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
                     viewpager2               : "androidx.viewpager2:viewpager2:$versions.viewpager2",
             ],
-            serialization : [
+            serialization: [
                     gson: "com.google.code.gson:gson:$versions.gson",
             ],
-            storages      : [
-                    room                 : [
+            storages     : [
+                    datastore: [
+                            core   : "androidx.datastore:datastore-core:$versions.datastore",
+                            init   : "androidx.datastore:datastore:$versions.datastore",
+                            rxjava2: "androidx.datastore:datastore-rxjava2:$versions.datastore",
+                            rxjava3: "androidx.datastore:datastore-rxjava3:$versions.datastore",
+                    ],
+                    datastore_preferences: [
+                        core: "androidx.datastore:datastore-preferences-core:$versions.datastore",
+                        init: "androidx.datastore:datastore-preferences:$versions.datastore",
+                        rxjava2: "androidx.datastore:datastore-preferences-rxjava2:$versions.datastore",
+                        rxjava3: "androidx.datastore:datastore-preferences-rxjava3:$versions.datastore",
+                    ],
+                    room     : [
                             runtime      : "androidx.room:room-runtime:$versions.room",
                             kapt_compiler: "androidx.room:room-compiler:$versions.room",
                             ktx          : "androidx.room:room-ktx:$versions.room",
                     ]
             ],
-            test          : [
+            test         : [
                     ui     : [
-                            core_ktx     :  "androidx.test:core-ktx:$versions.core_ktx",
+                            core_ktx     : "androidx.test:core-ktx:$versions.core_ktx",
                             espresso     : [
                                     core   : "androidx.test.espresso:espresso-core:$versions.espresso",
                                     contrib: "androidx.test.espresso:espresso-contrib:$versions.espresso",
@@ -236,7 +249,7 @@ ext {
                             ],
                             koin_test   : "org.koin:koin-test:$versions.koin",
                             mockito     : [
-                                    core: "org.mockito:mockito-core:$versions.mockito_core",
+                                    core  : "org.mockito:mockito-core:$versions.mockito_core",
                                     inline: "org.mockito:mockito-inline:$versions.mockito_inline",
                                     kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito",
                             ],
@@ -245,7 +258,7 @@ ext {
                             room_testing: "androidx.room:room-testing:$versions.room",
                     ],
             ],
-            util          : [
+            util         : [
                     anko_commons      : "org.jetbrains.anko:anko-commons:$versions.anko",
                     antlr             : [
                             runtime: "org.antlr:antlr4-runtime:$versions.antlr",

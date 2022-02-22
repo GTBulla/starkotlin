@@ -9,14 +9,13 @@ import br.com.gtbulla.features.repository_git.data.service.GithubService
 import br.com.gtbulla.libraries.common.model.entity.RepositoryGitItemEntity
 import br.com.gtbulla.libraries.common.model.mapper.RepositoryGitMapper
 import br.com.gtbulla.libraries.data.RepositoryDatabase
-import br.com.gtbulla.libraries.data.entity.RepositoryGitPageEntity
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val STARTING_PAGE_INDEX = 1
-
 @OptIn(ExperimentalPagingApi::class)
 internal class RepositoryMediator(
+    private val pageDataStore: PageDataStore,
     private val mapper: RepositoryGitMapper,
     private val service: GithubService,
     private val database: RepositoryDatabase,
@@ -38,7 +37,7 @@ internal class RepositoryMediator(
                     getPage()
                 }
             }
-            pageIndex = repositoryPage?.let { it.page + 1 } ?: STARTING_PAGE_INDEX
+            pageIndex = repositoryPage?.let { it + 1 } ?: 1
             val response = service.getRepositoryList(
                 "language:kotlin",
                 "stars",
@@ -47,7 +46,7 @@ internal class RepositoryMediator(
             val list = response.items.map { mapper.mapRemoteToEntity(it) }
             list?.let {
                 database.withTransaction {
-                    database.repositoryGitPageDao.save(RepositoryGitPageEntity(pageIndex))
+                    pageDataStore.save(pageIndex)
                     database.repositoryGitItemDao.save(list)
                 }
             }
@@ -59,7 +58,8 @@ internal class RepositoryMediator(
         }
     }
 
-    private suspend fun getPage(): RepositoryGitPageEntity? {
-        return database.repositoryGitPageDao.getPage()
+    private suspend fun getPage(): Int? {
+        return pageDataStore.currentPage.first()
     }
+
 }

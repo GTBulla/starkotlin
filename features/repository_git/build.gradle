@@ -29,6 +29,8 @@ dependencies {
     implementation deps.navigation.paging_runtime
     implementation deps.navigation.paging_common_ktx
 
+    implementation deps.storages.datastore_preferences.core
+    implementation deps.storages.datastore_preferences.init
     implementation deps.storages.room.runtime
     implementation deps.storages.room.ktx
     kapt deps.storages.room.kapt_compiler
